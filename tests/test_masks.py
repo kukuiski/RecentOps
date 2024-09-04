@@ -2,50 +2,23 @@ import pytest
 from src.masks import get_mask_card_number, get_mask_account
 
 
-def test_get_mask_card_number():
+def test_get_mask_card_number(valid_card_numbers, invalid_card_numbers):
     # Тестирование правильности маскирования номера карты
-    assert get_mask_card_number("7000792289606361") == "7000 79** **** 6361"
-    assert get_mask_card_number("1234567890123456") == "1234 56** **** 3456"
+    for card_number, masked_card in valid_card_numbers:
+        assert get_mask_card_number(card_number) == masked_card
 
     # Тестирование на различных входных форматах номеров карт
-
-    # Номер длиной меньше 16 символов
-    with pytest.raises(ValueError):
-        get_mask_card_number("123456789012")  # Длина 12 символов
-
-    # Номер длиной больше 16 символов
-    with pytest.raises(ValueError):
-        get_mask_card_number("12345678901234567890")  # Длина 20 символов
-
-    # Номер содержит символы, отличные от цифры
-    with pytest.raises(ValueError):
-        get_mask_card_number("1234-5678-9012-3456")
-
-    # Номер отсутствует
-    with pytest.raises(ValueError):
-        get_mask_card_number("")
+    for invalid_card in invalid_card_numbers:
+        with pytest.raises(ValueError):
+            get_mask_card_number(invalid_card)
 
 
-def test_get_mask_account():
-    # Тестирование правильности маскирования номера карты
-    assert get_mask_account("73654108430135874305") == "**4305"
-    assert get_mask_account("12345678901234562439") == "**2439"
+def test_get_mask_account(valid_account_numbers, invalid_account_numbers):
+    # Тестирование правильности маскирования номера счета
+    for account_number, masked_account in valid_account_numbers:
+        assert get_mask_account(account_number) == masked_account
 
-    # Тестирование на различных входных форматах номеров карт
-
-    # Номер длиной меньше 20 символов
-    with pytest.raises(ValueError):
-        get_mask_account("1234567890123456243")  # Длина 19 символов
-
-    # Номер длиной больше 20 символов
-    with pytest.raises(ValueError):
-        get_mask_account("123456789012345624391")  # Длина 21 символов
-
-    # Номер отсутствует
-    with pytest.raises(ValueError):
-        get_mask_account("")
-
-    # Номер содержит символы, отличные от цифры
-    with pytest.raises(ValueError):
-        get_mask_account("#12345678901234562439")
-
+    # Тестирование на различных входных форматах номеров счетов
+    for invalid_account in invalid_account_numbers:
+        with pytest.raises(ValueError):
+            get_mask_account(invalid_account)
