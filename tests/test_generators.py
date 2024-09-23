@@ -1,10 +1,9 @@
 import pytest
-from typing import List, Dict, Any
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
+
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 # Тестирование функции filter_by_currency
-
 @pytest.mark.parametrize("currency_code, expected_ids", [
     ("USD", [939719570, 142264268, 895315941]),  # Должен вернуть транзакции с USD
     ("RUB", [873106923, 594226727]),  # Должен вернуть транзакции с Рублями
