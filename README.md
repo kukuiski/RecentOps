@@ -243,6 +243,24 @@ for card_number in card_number_generator(1, 5):
 """
 ```
 
+### decorators.py
+
+Модуль `decorators.py` содержит декораторы:
+
+- `def log(filename: str = '') -> Callable[[F], F]`: Декоратор для логирования действия оборачиваемой функции. Записывает строку в случае успешного или неуспешного выполнения в файл с указанным именем в качестве аргумента. Если имя файла отсутствует, логи выводятся в консоль. 
+
+Примеры использования:
+
+```python
+from src.decorators import log
+
+log_file = "log.txt"
+
+@log(filename=str(log_file))
+def test_func(x, y):
+    return x + y
+```
+
 ## Тестирование
 
 Для тестирования модулей используйте встроенные тесты на базе `pytest`.
