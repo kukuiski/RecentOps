@@ -274,6 +274,14 @@ def test_func(x, y):
     return x + y
 ```
 
+### data_loaders.py
+
+Модуль `data_loaders.py` содержит функции для считывания данных из CSV и Excel-файлов
+
+- `def read_data_from_csv(file_path: str) -> Any`: Читает из CSV-файла и возвращает транзакции в виде словаря
+- `read_data_from_excel(file_path: str) -> Any`: Читает из Excel-файла и возвращает транзакции в виде словаря
+
+
 ## Тестирование
 
 Для тестирования модулей используйте встроенные тесты на базе `pytest`.
@@ -299,7 +307,9 @@ pytest
 
 1. **utils.py**: Логирование ошибок связанных с чтением JSON
 2. **masks.py**: Логгирование функций маскирования номеров счетов и карт.
+3. **data_loaders.py**: Логгирование функций считывания данных из CSV и Excel-файлов 
 
 Логи обновляются при каждом запуске и хранятся в файлах:
 - `logs/utils_logfile.log`
 - `logs/masks_logfile.log`
+- `logs/data_loaders_logfile.log`

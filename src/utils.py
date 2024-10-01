@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 from src.external_api import currency_convert
 
 logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler("logs/utils_logfile.log", mode='w')
+file_handler = logging.FileHandler("logs/utils_logfile.log", mode="w")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -16,7 +16,7 @@ def get_transactions_from_json(path_to_json: str) -> Any:
     """Принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях.
     Если файл пустой, содержит не список или не найден, функция возвращает пустой список."""
     try:
-        with open(path_to_json, 'r') as json_file:
+        with open(path_to_json, "r") as json_file:
             result = json.load(json_file)
             if not isinstance(result, list):
                 logger.error("В JSON должен быть список")

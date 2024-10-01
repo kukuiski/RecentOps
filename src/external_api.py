@@ -14,9 +14,7 @@ def currency_convert(c_from: str, c_to: str, amount: float) -> Any:
     url = f"https://api.apilayer.com/exchangerates_data/convert?to={c_to}&from={c_from}&amount={amount}"
 
     payload: Dict[str, Any] = {}
-    headers = {
-        "apikey": api_key
-    }
+    headers = {"apikey": api_key}
 
     # Выполнение запроса
     response = requests.request("GET", url, headers=headers, data=payload)
