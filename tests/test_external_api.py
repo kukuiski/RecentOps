@@ -12,17 +12,10 @@ def test_currency_convert(mock_request):
     # Настройка мока для ответа API
     mock_response = {
         "date": "2024-09-23",
-        "info": {
-            "rate": 103.18754,
-            "timestamp": 1727117776
-        },
-        "query": {
-            "amount": 12,
-            "from": "EUR",
-            "to": "RUB"
-        },
+        "info": {"rate": 103.18754, "timestamp": 1727117776},
+        "query": {"amount": 12, "from": "EUR", "to": "RUB"},
         "result": 1238.25048,
-        "success": "true"
+        "success": "true",
     }
 
     # Настраиваем мок на возврат нужных данных
@@ -40,5 +33,5 @@ def test_currency_convert(mock_request):
         "GET",
         "https://api.apilayer.com/exchangerates_data/convert?to=RUB&from=EUR&amount=12",
         headers={"apikey": os.getenv("EXCHANGE_API_KEY")},
-        data={}
+        data={},
     )

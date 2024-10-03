@@ -18,7 +18,7 @@ def test_log_success_file(tmp_path):
     assert result == 5
 
     # Проверяем содержимое файла
-    with open(log_file, 'r') as f:
+    with open(log_file, "r") as f:
         log_content = f.read()
 
     assert log_content == "test_func ok\n"
@@ -37,7 +37,7 @@ def test_log_exception_file(tmp_path):
         test_func(2, 0)
 
     # Проверяем содержимое файла
-    with open(log_file, 'r') as f:
+    with open(log_file, "r") as f:
         log_content = f.read()
 
     assert "test_func error" in log_content
