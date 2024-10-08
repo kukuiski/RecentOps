@@ -1,11 +1,16 @@
 import json
 import logging
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 from src.external_api import currency_convert
 
+# Получение абсолютного пути к директории проекта
+project_root = Path(__file__).resolve().parent.parent
+
 logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler("logs/utils_logfile.log", mode="w")
+log_file_path = project_root / "logs" / "utils_logfile.log"
+file_handler = logging.FileHandler(log_file_path, mode="w")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)

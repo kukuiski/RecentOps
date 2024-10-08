@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing import filter_by_state, sort_by_date
+from src.processing import count_operations_by_category, filter_by_state, get_transactions, sort_by_date
 
 
 # Тесты для filter_by_state
@@ -54,3 +54,106 @@ def test_filter_by_state(filter_by_state_data, state, expected_output):
 )
 def test_sort_by_date(sort_by_date_data, reverse_order, expected_output):
     assert sort_by_date(sort_by_date_data[0], reverse_order) == expected_output
+
+
+@pytest.fixture
+def transaction_data():
+    return [
+        {
+            "state": "EXECUTED",
+            "date": "2023-09-05T11:30:32Z",
+            "amount": 16210,
+            "currency_name": "Sol",
+            "currency_code": "PEN",
+            "from": "Счет 58803664561298323391",
+            "to": "Счет 39745660563456619397",
+            "description": "Перевод организации",
+        },
+        {
+            "state": "CANCELED",
+            "date": "2023-07-22T05:02:01Z",
+            "amount": 30368,
+            "currency_name": "Shilling",
+            "currency_code": "TZS",
+            "from": "Visa 1959232722494097",
+            "to": "Visa 6804119550473710",
+            "description": "Перевод с карты на карту",
+        },
+        {
+            "state": "EXECUTED",
+            "date": "2022-06-20T18:08:20Z",
+            "amount": 16836,
+            "currency_name": "Yuan Renminbi",
+            "currency_code": "CNY",
+            "from": "Visa 2759011965877198",
+            "to": "Счет 38287443300766991082",
+            "description": "Перевод с карты на карту",
+        },
+    ]
+
+
+@pytest.mark.parametrize(
+    "pattern, expected_output",
+    [
+        (
+            "Перевод организации",
+            [
+                {
+                    "state": "EXECUTED",
+                    "date": "2023-09-05T11:30:32Z",
+                    "amount": 16210,
+                    "currency_name": "Sol",
+                    "currency_code": "PEN",
+                    "from": "Счет 58803664561298323391",
+                    "to": "Счет 39745660563456619397",
+                    "description": "Перевод организации",
+                },
+            ],
+        ),
+        (
+            "с карты на карту",
+            [
+                {
+                    "state": "CANCELED",
+                    "date": "2023-07-22T05:02:01Z",
+                    "amount": 30368,
+                    "currency_name": "Shilling",
+                    "currency_code": "TZS",
+                    "from": "Visa 1959232722494097",
+                    "to": "Visa 6804119550473710",
+                    "description": "Перевод с карты на карту",
+                },
+                {
+                    "state": "EXECUTED",
+                    "date": "2022-06-20T18:08:20Z",
+                    "amount": 16836,
+                    "currency_name": "Yuan Renminbi",
+                    "currency_code": "CNY",
+                    "from": "Visa 2759011965877198",
+                    "to": "Счет 38287443300766991082",
+                    "description": "Перевод с карты на карту",
+                },
+            ],
+        ),
+        ("не найдено", []),
+    ],
+)
+def test_get_transactions(transaction_data, pattern, expected_output):
+    assert get_transactions(transaction_data, pattern) == expected_output
+
+
+@pytest.mark.parametrize(
+    "categories, expected_output",
+    [
+        (
+            ["Перевод организации", "Перевод с карты на карту"],
+            {"Перевод организации": 1, "Перевод с карты на карту": 2},
+        ),
+        (
+            ["Открытие вклада"],
+            {"Открытие вклада": 0},
+        ),
+    ],
+)
+def test_count_operations_by_category(transaction_data, categories, expected_output):
+    assert count_operations_by_category(transaction_data, categories) == expected_output
