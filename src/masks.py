@@ -1,8 +1,13 @@
 import logging
+from pathlib import Path
+
+# Получение абсолютного пути к директории проекта
+project_root = Path(__file__).resolve().parent.parent
 
 # Настройка логгера
 logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler("logs/masks_logfile.log", mode="w")
+log_file_path = project_root / "logs" / "masks_logfile.log"
+file_handler = logging.FileHandler(log_file_path, mode="w")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
